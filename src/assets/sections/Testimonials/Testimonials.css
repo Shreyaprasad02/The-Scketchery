@@ -1,0 +1,101 @@
+@import url('https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css');
+@import url('https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css');
+
+section#testimonials {
+    padding-top: 4rem;
+    background-color: #ededed;
+    padding-bottom: 4rem;
+}
+
+.testimonial-container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.testimonial{
+ position: relative;
+ max-width: 900px;
+ width: 100%;
+ padding: 50px 0;
+ background-color: white;
+}
+
+.testimonial img{
+    height: 170px;
+    width: 178px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.testimonial .item1 > h4 { 
+    font-size: 1rem;
+    font-weight: 400;
+    letter-spacing: 1px;
+    line-height: 30px;
+    text-align: center;
+    padding: 0 100px;
+}
+
+.testimonial .item1 > h3 { 
+    font-size: 18px;
+    letter-spacing: 1px;
+    line-height: 25px;
+    color: #1b1b1b;
+    font-weight: 700;
+    padding-bottom: 10px;
+}
+
+.testimonial .item1 { 
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    flex-direction: column !important;
+    row-gap: 30px !important;
+}
+
+.item1 .quote-icon{
+    font-size: 40px;
+    color: var(--color-secondary);
+}
+
+.testimonial_slider .slick-dots button::before{
+    height: 10px !important;
+    width: 10px !important;
+    font-size: 15px !important;
+}
+
+.slick-active button::before{
+    color: var(--color-primary) !important;
+}
+
+  /* =================RESPNSIVE/PHONE==================== */
+  @media (max-width: 600px) {
+
+    .testimonial img{
+        height: 110px;
+        width: 128px;
+    }
+
+    .testimonial .item1 > h4 { 
+        font-size: 13px;
+        padding: 0 30px;
+    }
+    .testimonial .item1 > h3 { 
+        font-size: 12px;
+        padding-bottom: 10px;
+    }
+
+    .item1 .quote-icon{
+        font-size: 30px;
+    }
+
+    .testimonial .item1 { 
+        row-gap: 15px !important;
+    }
+
+    .testimonial_slider .slick-dots button::before{
+        font-size: 10px !important;
+    }
+
+}

@@ -1,0 +1,97 @@
+@import url('https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css');
+@import url('https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css');
+
+.hero{
+    padding-top: 0;
+    padding-bottom: 2rem;
+    /* background-color: #f4f4f4; */
+}
+
+.home_slider{
+    overflow: hidden;
+    position: relative;
+}
+
+.item{
+    height: 35rem;
+    /* height: auto; */
+    width: 100%;
+}
+
+.slick-arrow{
+    position: absolute;
+    top: 47%;
+    width: 50px !important;
+    height: 50px !important;
+    border-radius: 50% !important;
+    background-color: #f2f3f4 !important;
+    z-index: 999 !important ;
+    transition:all 0.2s ease-in-out ;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+}
+.slick-next {
+    right: 2% !important;
+}
+.slick-prev {
+    left: 2% !important;
+}
+
+.slick-prev:before{
+    content: "\f104" !important;
+    font-family: FontAwesome !important;
+    font-size: 30px !important;
+    color: black !important;
+}
+.slick-next:before{
+    content: "\f105" !important;
+    font-family: FontAwesome !important;
+    font-size: 30px !important;
+    color: black !important;
+}
+
+.slick-arrow:hover{
+    background: var(--color-primary) !important;
+}
+
+.slick-arrow:hover::before{
+    color: #fff !important;
+}
+
+.home_slider_main .slick-dots{
+    position: absolute;
+    bottom: 30px !important;
+}
+
+.home_slider_main .slick-dots button::before{
+    height: 10px !important;
+    width: 10px !important;
+    font-size: 15px !important;
+}
+
+.slick-active button::before{
+    color: var(--color-primary) !important;
+}
+
+
+  /* =================RESPNSIVE/PHONE==================== */
+@media (max-width: 600px) {
+    .hero{
+        /* padding-top: 4rem; */
+        background-color: white;
+    }
+    .slick-arrow {
+        display: none; /* Hide arrows on smaller screens */
+    }
+
+    .home_slider_main .slick-dots {
+        bottom: 22.5rem !important; /* Adjust position for better visibility */
+    }
+
+    .home_slider_main .slick-dots button::before {
+        font-size: 12px !important; /* Adjust dot size for better visibility */
+    }
+}
+
+
+
+

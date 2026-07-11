@@ -26,13 +26,13 @@ const Navbar = () => {
             </div>
 
           </div>
-          <div className='tn-icons'>
+          {/* <div className='tn-icons'>
             <a href=''><RiUserFill /></a>
             <Link className='cart-icon' to='/category/cart'>
               <RiShoppingCartFill />
               <span className='count'>0</span>
             </Link>
-          </div>
+          </div> */}
         </div>
         <hr />
 

@@ -1,10 +1,109 @@
-.cartSection{
+.cartSection {
     width: 100%;
     height: auto;
     padding: 35px 0px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
-.container-fluid p{
+.container-fluid p {
     color: grey;
-    margin-bottom: 25px
+    margin-bottom: 25px;
 }
+
+.clear-cart {
+    margin-right: 41%;
+    font-weight: 500;
+    font-size: 14px;
+    color: grey;
+    cursor: pointer;
+}
+
+.clearicon {
+    margin-right: 5px;
+    font-size: 16px;
+    vertical-align: middle;
+    cursor: pointer;
+}
+
+.table-responsive {
+    margin-left: 8%; 
+    margin-bottom: 18rem;
+}
+
+.custom-header {
+    padding-left: 30px; 
+}
+
+.remove-btn {
+    background: none; 
+    cursor: pointer; 
+    align-items: center;
+    justify-content: center; 
+    padding-top: 15px;   
+    padding-left: 20px;
+}
+
+/* Hide column separators */
+.MuiDataGrid-columnSeparator {
+    display: none !important; 
+}
+
+.MuiDataGrid-columnSeparator::before {
+    display: none !important; 
+}
+
+/* Remove hover effect on cells */
+.MuiDataGrid-cell:hover {
+    background: none !important; 
+}
+
+/* Remove focus and outline effects on cells */
+.MuiDataGrid-cell:focus,
+.MuiDataGrid-cell:focus-visible,
+.MuiDataGrid-cell:focus-within {
+    outline: none !important;
+    box-shadow: none !important;
+    background: none !important; 
+}
+
+/* Ensure header background color persists */
+.MuiDataGrid-columnHeader {
+    background-color: skyblue !important; /* Ensure header background color */
+    color: black; /* Ensure header text color */
+}
+
+.MuiDataGrid-columnHeader:focus,
+.MuiDataGrid-columnHeader:focus-visible,
+.MuiDataGrid-columnHeader:focus-within {
+    background-color: skyblue !important; /* Maintain header color on focus */
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+.MuiDataGrid-footerContainer {
+    display: none !important; /* Hide footer */
+}
+
+.checkoutForm {
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.checkoutForm h3 {
+  margin-bottom: 20px;
+  font-weight: 600;
+}
+
+.form-control {
+  border-radius: 6px;
+}
+
+button.btn-primary {
+  padding: 10px;
+  font-weight: 500;
+}
+  

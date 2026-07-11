@@ -1,167 +1,218 @@
 import React, { useState } from 'react';
 import { RiShoppingCart2Line, RiUpload2Fill } from 'react-icons/ri';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
-const ProductOptions = ({ amount, activeSize, isFramed, paperSize, setActiveSize, setIsFramed, setPaperSize }) => {
-    const [selectedFile, setSelectedFile] = useState(null); // State for managing the selected file
+const ProductOptions = ({
+  amount,
+  activeSize,
+  isFramed,
+  paperSize,
+  setActiveSize,
+  setIsFramed,
+  setPaperSize
+}) => {
 
-    const handleFileChange = (event) => {
-        if (event.target.files[0]) {
-            setSelectedFile(event.target.files[0]);
-        }
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [imagePreview, setImagePreview] = useState(null);
+
+  const handleFileChange = (event) => {
+    if (event.target.files[0]) {
+      const file = event.target.files[0];
+      setSelectedFile(file);
+
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImagePreview(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleFaceSelection = (index) => {
+    if (paperSize !== 'A5') {
+      setActiveSize(index);
+    }
+  };
+
+  const handleFrameSelection = (frameSelected) => {
+    setIsFramed(frameSelected);
+  };
+
+  const handlePaperSizeSelection = (size) => {
+    if (size === 'A5') {
+      setActiveSize(0);
+    }
+    setPaperSize(size);
+  };
+
+  const getFrameCost = () => {
+    switch (paperSize) {
+      case 'A5': return 150;
+      case 'A4': return 200;
+      case 'A3':
+      default: return 250;
+    }
+  };
+
+  const getSingleFacePrice = () => {
+    switch (paperSize) {
+      case 'A3': return amount + 500;
+      case 'A4': return amount + 300;
+      case 'A5': return amount + 100;
+      default: return amount;
+    }
+  };
+
+  const getTwoFacePrice = () => getSingleFacePrice() * 2;
+
+  const getCurrentAmount = () => {
+    let currentAmount =
+      activeSize === 0 ? getSingleFacePrice() : getTwoFacePrice();
+
+    if (isFramed) {
+      currentAmount += getFrameCost();
+    }
+
+    return currentAmount;
+  };
+
+  const handleLinkClick = (e) => {
+    if (!selectedFile) {
+      e.preventDefault(); // 🚀 THIS stops redirect
+      alert('Please select an image before proceeding to buy.');
+      return;
+    }
+
+    // pass state safely
+    e.currentTarget.state = {
+      paperSize,
+      faces: activeSize === 0 ? 'Single Face' : 'Two Face',
+      isFramed,
+      totalPrice: getCurrentAmount(),
+      imagePreview
     };
+  };
 
-    const handleFaceSelection = (index) => {
-        if (paperSize !== 'A5') {
-            setActiveSize(index);
-        }
-    };
+  return (
+    <Wrapper>
+      <div className='product-options'>
 
-    const handleFrameSelection = (frameSelected) => {
-        setIsFramed(frameSelected);
-    };
+        <div className='productSize'>
+          <span className="size-title">Paper Size</span>
+          <ul className="list">
+            <li className="list-inline-item">
+              <a className={`tag paper-size-tag ${paperSize === 'A3' ? 'active' : ''}`}
+                 onClick={() => handlePaperSizeSelection('A3')}>
+                <h3 className='face-opt'>A3</h3>
+                <div className='caption'>(297 x 420mm)</div>
+              </a>
+            </li>
 
-    const handlePaperSizeSelection = (size) => {
-        if (size === 'A5') {
-            setActiveSize(0); // Reset to single face if A5 is selected
-        }
-        setPaperSize(size);
-    };
+            <li className="list-inline-item">
+              <a className={`tag paper-size-tag ${paperSize === 'A4' ? 'active' : ''}`}
+                 onClick={() => handlePaperSizeSelection('A4')}>
+                <h3 className='face-opt'>A4</h3>
+                <div className='caption'>(210 x 297mm)</div>
+              </a>
+            </li>
 
-    const getFrameCost = () => {
-        switch (paperSize) {
-            case 'A5':
-                return 150;
-            case 'A4':
-                return 200;
-            case 'A3':
-            default:
-                return 250;
-        }
-    };
+            <li className="list-inline-item">
+              <a className={`tag paper-size-tag ${paperSize === 'A5' ? 'active' : ''}`}
+                 onClick={() => handlePaperSizeSelection('A5')}>
+                <h3 className='face-opt'>A5</h3>
+                <div className='caption'>(148 x 210mm)</div>
+              </a>
+            </li>
+          </ul>
+        </div>
 
-    const getSingleFacePrice = () => {
-        switch (paperSize) {
-            case 'A3':
-                return amount + 500;
-            case 'A4':
-                return amount + 300;
-            case 'A5':
-                return amount + 100;
-            default:
-                return amount;
-        }
-    };
+        <div className='product'>
+          <div className='faceCount'>
+            <span className="size-title">Number of Face (s)</span>
+            <ul className="list">
+              <li className="list-inline-item">
+                <a className={`tag ${activeSize === 0 ? 'active' : ''}`}
+                   onClick={() => handleFaceSelection(0)}>
+                  <h3 className='face-opt'>Single Face</h3>
+                  <div className='caption'>₹{getSingleFacePrice()}</div>
+                </a>
+              </li>
 
-    const getTwoFacePrice = () => getSingleFacePrice() * 2;
+              <li className={`list-inline-item ${paperSize === 'A5' ? 'disabled' : ''}`}>
+                <a className={`tag ${activeSize === 1 ? 'active' : ''}`}
+                   onClick={() => handleFaceSelection(1)}>
+                  <h3 className='face-opt'>Two Face</h3>
+                  <div className='caption'>₹{getTwoFacePrice()}</div>
+                </a>
+              </li>
+            </ul>
+          </div>
 
-    const getCurrentAmount = (withFrame) => {
-        let currentAmount = activeSize === 0 ? getSingleFacePrice() : getTwoFacePrice();
-        if (withFrame) {
-            currentAmount += getFrameCost();
-        }
-        return currentAmount;
-    };
+          <div className='productFrame'>
+            <span className="size-title">Frame</span>
+            <ul className="list">
+              <li className="list-inline-item">
+                <a className={`tag ${isFramed ? 'active' : ''}`}
+                   onClick={() => handleFrameSelection(true)}>
+                  <h3 className='face-opt'>Add Frame</h3>
+                  <div className='caption'>₹{getCurrentAmount()}</div>
+                </a>
+              </li>
 
-    const handleAddToCart = () => {
-        if (!selectedFile) {
-            alert('Please select an image before adding to cart.');
-            return;
-        }
+              <li className="list-inline-item">
+                <a className={`tag ${!isFramed ? 'active' : ''}`}
+                   onClick={() => handleFrameSelection(false)}>
+                  <h3 className='face-opt'>No Frame</h3>
+                  <div className='caption'>₹{getCurrentAmount()}</div>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
 
-        // Proceed with add to cart logic
-        alert('Image added to cart!');
-    };
+        <div className='productImage'>
+          <span className="size-title">Select Image For Sketch<br /></span>
 
-    return (
-        <Wrapper>
-            <div className='product-options'>
-                <div className='productSize'>
-                    <span className="size-title">Paper Size</span>
-                    <ul className="list">
-                        <li className="list-inline-item">
-                            <a className={`tag paper-size-tag ${paperSize === 'A3' ? 'active' : ''}`} onClick={() => handlePaperSizeSelection('A3')}>
-                                <h3 className='face-opt'>A3</h3>
-                                <div className='caption'>(297 x 420mm)</div>
-                            </a>
-                        </li>
-                        <li className="list-inline-item">
-                            <a className={`tag paper-size-tag ${paperSize === 'A4' ? 'active' : ''}`} onClick={() => handlePaperSizeSelection('A4')}>
-                                <h3 className='face-opt'>A4</h3>
-                                <div className='caption'>(210 x 297mm)</div>
-                            </a>
-                        </li>
-                        <li className="list-inline-item">
-                            <a className={`tag paper-size-tag ${paperSize === 'A5' ? 'active' : ''}`} onClick={() => handlePaperSizeSelection('A5')}>
-                                <h3 className='face-opt'>A5</h3>
-                                <div className='caption'>(148 x 210mm)</div>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
+          <div className="action-container">
+            <input
+              type="file"
+              id="uploadBtn"
+              className="file-input"
+              accept="image/jpeg, image/png, image/jpg"
+              onChange={handleFileChange}
+            />
 
-                <div className='product'>
-                    <div className='faceCount'>
-                        <span className="size-title">Number of Face (s)</span>
-                        <ul className="list">
-                            <li className="list-inline-item">
-                                <a className={`tag ${activeSize === 0 ? 'active' : ''}`} onClick={() => handleFaceSelection(0)}>
-                                    <h3 className='face-opt'>Single Face</h3>
-                                    <div className='caption'>₹{getSingleFacePrice()}</div>
-                                </a>
-                            </li>
-                            <li className={`list-inline-item ${paperSize === 'A5' ? 'disabled' : ''}`}>
-                                <a className={`tag ${activeSize === 1 ? 'active' : ''}`} onClick={() => handleFaceSelection(1)}>
-                                    <h3 className='face-opt'>Two Face</h3>
-                                    <div className='caption'>₹{getTwoFacePrice()}</div>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
+            <label htmlFor="uploadBtn" className='file-label'>
+              <RiUpload2Fill />
+              {selectedFile ? 'Photo Selected' : 'Select Photo'}
+            </label>
 
-                    <div className='productFrame'>
-                        <span className="size-title">Frame</span>
-                        <ul className="list">
-                            <li className="list-inline-item">
-                                <a className={`tag ${isFramed ? 'active' : ''}`} onClick={() => handleFrameSelection(true)}>
-                                    <h3 className='face-opt'>Add Frame</h3>
-                                    <div className='caption'>₹{getCurrentAmount(true)}</div>
-                                </a>
-                            </li>
-                            <li className="list-inline-item">
-                                <a className={`tag ${!isFramed ? 'active' : ''}`} onClick={() => handleFrameSelection(false)}>
-                                    <h3 className='face-opt'>No Frame</h3>
-                                    <div className='caption'>₹{getCurrentAmount(false)}</div>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
+            {/* EXACT SAME LINK STRUCTURE */}
+            <Link
+              className='buy-icon'
+              to='/category/cart'
+              state={{
+                paperSize,
+                faces: activeSize === 0 ? 'Single Face' : 'Two Face',
+                isFramed,
+                totalPrice: getCurrentAmount(),
+                imagePreview
+              }}
+              onClick={handleLinkClick}
+            >
+              <button className='btn-g'>
+                <RiShoppingCart2Line />
+                Buy Now
+              </button>
+            </Link>
 
-                <div className='productImage'>
-                    <span className="size-title">Select Image For Sketch<br /></span>
-                    <div className="action-container">
-                        <input
-                            type="file"
-                            id="uploadBtn"
-                            className="file-input"
-                            accept="image/jpeg, image/png, image/jpg"
-                            onChange={handleFileChange}
-                        />
-                        <label htmlFor="uploadBtn" className='file-label'>
-                            <RiUpload2Fill />
-                            {selectedFile ? 'Photo Selected' : 'Select Photo'}
-                        </label>
+          </div>
+        </div>
 
-                        <button className='btn-g' onClick={handleAddToCart}>
-                            <RiShoppingCart2Line />
-                            Add To Cart
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </Wrapper>
-    );
+      </div>
+    </Wrapper>
+  );
 };
 
 const Wrapper = styled.div`

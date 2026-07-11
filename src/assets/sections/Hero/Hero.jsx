@@ -2,8 +2,8 @@ import React from 'react'
 import Slider from "react-slick";
 import './Hero.css'
 // import Hero1 from '../../Images/Hero1.jpg'
-import Slide2 from '../../Images/Slide2.jpg'
-import Slide3 from '../../Images/Slide3.jpg'
+import Slide2 from '../../Images/hero 1.0.png'
+import Slide3 from '../../Images/hero 2.0.png'
 
 
 const Hero = () => {
